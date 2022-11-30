@@ -5,14 +5,13 @@ document.addEventListener('click', event => {
             event.target.closest('li').remove()
         })
     }
-})
-
-document.addEventListener('click', event => {
     if (event.target.dataset.type === 'edit') {
         const id = event.target.dataset.id
         const data = prompt('Please enter new title')
         if (data.length) {
-            edit(id, data)
+            edit(id, data).then(() => {
+                window.location.reload()
+            })
         }
     }
 })
@@ -24,7 +23,9 @@ async function remove(id) {
 }
 
 async function edit(id, data) {
-    await fetch([`/${id}`, data], {
-        method: "PUT"
+    await fetch(`/${id}`, {
+        method: 'PUT',
+        body: JSON.stringify({data}),
+        headers: {'Content-Type': 'application/json'}
     })
 }

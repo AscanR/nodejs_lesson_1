@@ -17,9 +17,10 @@ async function addNote(title) {
 
 async function changeNote(title, id) {
     const notes = await getNotes()
-    const filteredNote = notes.filter(note => note.id === id)
-    const changedNote = {...filteredNote, title: title}
-    notes.push(changedNote)
+    const editedNote = notes.findIndex(note => note.id === id)
+    if (editedNote !== -1) {
+        notes[editedNote].title = title
+    }
     await fs.writeFile(notesPath, JSON.stringify(notes))
 }
 

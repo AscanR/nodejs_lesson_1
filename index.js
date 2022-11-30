@@ -14,6 +14,7 @@ app.use(express.static(path.resolve(__dirname, 'public')))
 app.use(express.urlencoded({
     extended: true
 }))
+app.use(express.json())
 
 app.get('/', async (req, res) => {
     //res.sendFile(path.join(basePath, 'index.ejs'))
@@ -45,7 +46,7 @@ app.delete('/:id', async (req, res) => {
 })
 
 app.put('/:id', async (req, res) => {
-    await changeNote(req.body.title, req.params.id)
+    await changeNote(req.body.data, req.params.id)
     res.render('index', {
         title: 'Express App',
         notes: await getNotes(),
